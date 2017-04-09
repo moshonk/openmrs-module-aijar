@@ -10,7 +10,7 @@
           formIcon="icon-medkit"
           formShowIf="(visit.active || !visit.active) &amp;&amp; patient.person.dead==false &amp;&amp; sessionLocation.uuid=='8ab22b55-9a17-4121-bf08-6134a9a2439f'"
           formDisplayStyle="Standard"
-          formLabel="Form 096a - Health Unit TB Register - Summary">
+          formLabel="Form 096a - Health Unit TB Register - Followup">
     <ifMode mode="ENTER,EDIT">
         <includeIf velocityTest="$fn.allEncounters('334bf97e-28e2-4a27-8727-a5ce31c7cd66').size() == 0">
             <script>
@@ -179,30 +179,30 @@
 
 	        <ifMode mode="ENTER">
 	            $otherRows.hide(); //Hide all rows apart from first row if adding new form
-	        $firstRow.find('.remove').hide(); //Hide the remove button from the first row
+	        	$firstRow.find('.remove').hide(); //Hide the remove button from the first row
 	        </ifMode>
 
 	        <ifMode mode="EDIT">
 	            //Handle loading of existing obs
 	            $allRows.hide();
-	        $nonEmptyBoxes = jq('input').filter(function() {
-	            return this.value.length &gt; 0;
-	        });
+	        	$nonEmptyBoxes = jq('table#drugs tbody tr input[type=text],table#drugs tbody tr select').filter(function() {
+	            	return this.value.length > 0;
+		        });
+		        
+		        if ($nonEmptyBoxes.length &gt; 0 ) {
+		            $nonEmptyBoxes.each(function() {
+		                $thisRow = jq(this).parents('tr:first');
+		                $thisRow.show();
+		            });
 
-	        if ($nonEmptyBoxes.length &gt; 0 ) {
-	            $nonEmptyBoxes.each(function() {
-	                $thisRow = jq(this).parents('tr:first');
-	                $thisRow.show();
-	            });
+		            if ($nonEmptyBoxes.length == 1) {
+		                $nonEmptyBoxes.parents('tr:first').find('.remove').hide(); //Hide the remove button if there is only one visible row
+		            }
 
-	            if ($nonEmptyBoxes.length == 1) {
-	                $nonEmptyBoxes.parents('tr:first').find('.remove').hide(); //Hide the remove button if there is only one visible row
-	            }
-
-	        } else {
-	              $firstRow.show();
-	        $firstRow.find('.remove').hide();
-	    }
+		        } else {
+		            $firstRow.show();
+		        	$firstRow.find('.remove').hide();
+		    	}
 	        </ifMode>
 
 	        jq('.add').click(function(e) { //Handle add button event
