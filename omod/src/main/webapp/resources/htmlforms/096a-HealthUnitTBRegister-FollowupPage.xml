@@ -141,7 +141,7 @@
 	            return !dirty;
 	        }
 
-	        $muacColorCodeField.change(muacColorCodeChange());
+	        $muacColorCodeField.change(muacColorCodeChange);
 
 	        muacColorCodeChange();
 
@@ -311,7 +311,7 @@
           </td>
           <td valign="top">
             <p>
-              <label>MUAC Colour Code</label>
+              <label>MUAC <br />Colour <br />Code</label>
               <obs conceptId="99030" answerConceptIds="99028,99027,99029" answerLabels="Red,Green,Yellow" id="muac-color-code" style="radio"/>
             </p>
           </td>
@@ -319,7 +319,7 @@
             <p>
               <label>INR No</label>
               <span id="inr-number">
-                <patient  field="identifier" identifierTypeId="d4b21726-e908-4b1a-abab-b5f87cd01c18" id="inr-no" required="true" />
+                <patient  field="identifier" identifierTypeId="d4b21726-e908-4b1a-abab-b5f87cd01c18" id="inr-no" required="false" />
               </span>
             </p>
           </td>
