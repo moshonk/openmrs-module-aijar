@@ -11,6 +11,39 @@
           formDisplayStyle="Standard"
           formLabel="PNC Encounter Form">
 
+    <ifMode mode="ENTER">
+        <includeIf velocityTest="$fn.allEncounters('a9f11592-22e7-45fc-904d-dfe24cb1fc67').size() == 0">
+            <script>
+                jq(function () {
+                    alert('This patient has no Maternity encounter, you will now be forwarded to the patient dashboard');
+
+                    /*
+                     * queryParameters -> handles the query string parameters
+                     * queryString -> the query string without the fist '?' character
+                     * re -> the regular expression
+                     * m -> holds the string matching the regular expression
+                     */
+                    var queryParameters = {}, queryString = location.search.substring(1),
+                            re = /([^&amp;=]+)=([^&amp;]*)/g, m;
+
+                    // Creates a map with the query string parameters
+                    while (m = re.exec(queryString)) {
+                        queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+                    }
+
+                    /*
+                     * Replace the query portion of the URL.
+                     * jQuery.param() -> create a serialized representation of an array or
+                     *     object, suitable for use in a URL query string or Ajax request.
+                     */
+                    location.href = window.location.protocol + "//" + window.location.host +
+                            '/' + OPENMRS_CONTEXT_PATH + '/coreapps/clinicianfacing/patient.page?patientId='
+                            + queryParameters['patientId']; // Causes page to reload
+                });
+            </script>
+        </includeIf>
+    </ifMode>
+
 	<style type="text/css">
 
 		form#htmlform div.ai-page-frame table>tbody tr:nth-child(odd) td {
@@ -32,20 +65,17 @@
 		jQuery(document).ready(function(jq) {
 
 			const OTHER_CONCEPT_ID = 5622;
-	        const 	VIRAL_LOAD_RESULTS_CONCEPT_ID = 1305,
-	        		VIRAL_LOAD_DETECTED_CONCEPT_ID = 1301,
-	        		VIRAL_LOAD_NOT_DETECTED_CONCEPT_ID = 1306,
-	        		VIRAL_LOAD_SAMPLE_REJECTED_CONCEPT_ID = 1304;
+	        const VIRAL_LOAD_RESULTS_CONCEPT_ID = 1305;
+	        const VIRAL_LOAD_DETECTED_CONCEPT_ID = 1301;
+	        const VIRAL_LOAD_NOT_DETECTED_CONCEPT_ID = 1306;
+	        const VIRAL_LOAD_SAMPLE_REJECTED_CONCEPT_ID = 1304;
 
-	        const 	HIV_STATUS_CONCEPT_ID = 90253,
-	        		HIV_POSITIVE_CONCEPT_ID = 90166,
-	        		HIV_NEGATIVE_CONCEPT_ID = 90167;
+	        const HIV_STATUS_CONCEPT_ID = 90253;
+	        const HIV_POSITIVE_CONCEPT_ID = 90166;
+	        const HIV_NEGATIVE_CONCEPT_ID = 90167;
 
-	        const 	YES_CONCEPT_ID = 1065,
-	        		NO_CONCEPT_ID = 1066,
-	    			YELLOW_CONCEPT_ID = 99029,
-	    			RED_CONCEPT_ID = 99028,
-	    			GREEN_CONCEPT_ID = 99027;
+	        const YES_CONCEPT_ID = 1065;
+	        const NO_CONCEPT_ID = 1066;
 
 	        const NORMAL_DELIVERY_CONCEPT_ID = 1170;
 
@@ -69,10 +99,9 @@
 
 			var setNormalDeliveryStatus = function() {
 				var deliveryMethod = <lookup complexExpression="
+										#set ($deliveryMethod = '')
 										#set ($deliveryMethod = $fn.latestObs('5630').valueCoded.conceptId)
-										#if ($deliveryMethod) $deliveryMethod;
-										#else '';
-										#end
+										$deliveryMethod
 										" />
 				if (deliveryMethod == NORMAL_DELIVERY_CONCEPT_ID) {
 					$normalPregnancyField.attr('checked', 'checked');
@@ -248,16 +277,8 @@
 				var emtctControlsToHide =  $emtctCodeWomanField.children('option').filter(function() {
 					return emtctCodesToHide.indexOf(parseInt(this.value)) &gt; -1;
 				});
-				emtctControlsToHide.attr('disabled', true);
+				emtctControlsToHide.remove();
 				setValue('emtct-code-woman.value', 99738);
-		    };
-
-		    var hideOtherHivStatusOPtionsForKnownHivPositiveStatus = function() {
-				var hivStatusCodesToHide = [90167,1067];
-				var hivStatusControlsToHide =  $hivStatusField.children('option').filter(function() {
-					return hivStatusCodesToHide.indexOf(parseInt(this.value)) &gt; -1;
-				});
-				hivStatusControlsToHide.remove();
 		    };
 
 		    var getHivStatus = function () {
@@ -289,7 +310,6 @@
 					$hivStatusField.val(HIV_POSITIVE_CONCEPT_ID);
 					$hivStatusField.change();
 					hideOtherEmtctCodesForKnownHivPositiveStatus();
-					hideOtherHivStatusOPtionsForKnownHivPositiveStatus();					
 				} else {
 					fieldHelper.enable($hivStatusField);
 				}
@@ -346,7 +366,6 @@
             <span class="hidden">
                 <encounterLocation default="629d78e9-93e5-43b0-ad8a-48313fd99117"
                                    order="629d78e9-93e5-43b0-ad8a-48313fd99117" />
-                <encounterProvider role="Provider" type="autocomplete" default="currentUser" />
             </span>
             <legend>Visit Summary</legend>
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -358,6 +377,10 @@
                         </p>
                     </td>
                     <td>
+                        <p class="hidden">
+                            <label>Provider</label>
+                            <encounterProvider role="Provider" type="autocomplete" default="currentUser" />
+                        </p>
                         <p>
                             <label>Serial</label>
                         </p>
@@ -420,7 +443,7 @@
 	                            <obs conceptId="dc7620b3-30ab-102d-86b0-7a5022ba4115"
 	                            	 answerConceptId="dcb30381-30ab-102d-86b0-7a5022ba4115"
 	                                 answerLabel="Natural"
-	                                 style="checkbox" class="horizontal-layout-options"/>
+	                                 style="checkbox"/>
 	                            <obs conceptId="dc7620b3-30ab-102d-86b0-7a5022ba4115"
 	                                 answerConceptId="dcb2fba9-30ab-102d-86b0-7a5022ba4115"
 	                                 answerLabel="Female Sterilization"
@@ -432,7 +455,7 @@
 	                            <obs conceptId="dc7620b3-30ab-102d-86b0-7a5022ba4115"
 	                                 answerConceptId="bb83fd9d-24c5-4d49-89c0-97e13c792aaf"
 	                                 answerLabel="Implant"
-	                                 style="checkbox" />
+	                                 style="checkbox" class="horizontal-layout-options" />
 	                            <obs conceptId="dc7620b3-30ab-102d-86b0-7a5022ba4115"
 	                                 answerConceptId="dcdd91a7-30ab-102d-86b0-7a5022ba4115"
 	                                 answerLabel="Tubal Ligation"
@@ -445,7 +468,7 @@
 	                            <obs conceptId="dc7620b3-30ab-102d-86b0-7a5022ba4115"
 	                                 answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 	                                 answerLabel="Other"
-	                                 style="checkbox" commentFieldLabel="" class="has-comment horizontal-layout-options"/>
+	                                 style="checkbox" />
 	                        </p>
 	                    </td>
 	                </tr>
@@ -673,14 +696,14 @@
                             <obs id="arvs-given" conceptId="a615f932-26ee-449c-8e20-e50a15232763"
                                  answerConceptIds="026e31b7-4a26-44d0-8398-9a41c40ff7d3,2aa7d442-6cbb-4609-9dd3-bc2ad6f05016,2c000b41-f9d7-40c1-8de0-bce91dbae932,
                                  bbc63761-0741-4583-9396-a34d3a18601c,dc9b0596-30ab-102d-86b0-7a5022ba4115"
-                                 answerLabels="ART,ARTK,ART&#8730;,ARTK&#8730;,NA" />
+                                 answerLabels="ART,ARTK,ART✔,ARTK✔,NA" />
                         </p>
                     </td>
                     <td>
                         <p>
                             <label>Pre-ART Number</label>
                             <span id="pre-art-number">
-	                            <patient field="identifier" identifierTypeId="e1731641-30ab-102d-86b0-7a5022ba4115" required="false" />
+	                            <patient field="identifier" identifierTypeId="e1731641-30ab-102d-86b0-7a5022ba4115" />
 							</span>
                         </p>
                     </td>
@@ -727,7 +750,7 @@
                         <p>
 
                             <label>Age (Wks)</label>
-                            <obs conceptId="274d8abf-f41d-4dce-a496-8c949d362466" />
+                            <obs conceptId="164438AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 
                         </p>
                     </td>
@@ -840,7 +863,7 @@
         <fieldset>
             <legend>Referral Information</legend>
             <section>
-            	<h3>Baby</h3>
+            	<h3>Child</h3>
 				<table>
 					<tr>
 						<td colspan="2">
@@ -856,13 +879,13 @@
 						<td>
 							<p>
 								<label>Facility Name</label>
-								<obs conceptId="dcdffef2-30ab-102d-86b0-7a5022ba4115" />
+								<obs conceptId="90206" />
 							</p>
 						</td>
 						<td>
 							<p>
 								<label>Facility Type</label>
-								<obs conceptId="2b00ebe6-edfd-4290-8b8d-942554e3c30d"
+								<obs conceptId="99770"
 	                                 answerConceptIds="6abc57f2-3718-42f6-84c4-4f71e921d590,37549919-5934-448e-b110-cc7868e73ff2,9028e51b-0c27-4b72-bde6-fadba72d1396"
 	                                 answerLabels="Young Child Clinic, HIV Chronic Care, Other Referral"
 	                                 style="dropdown" />
@@ -871,7 +894,7 @@
 						<td>
 							<p>
 								<label>Facility Name</label>
-								<obs conceptId="dce015bb-30ab-102d-86b0-7a5022ba4115" />
+								<obs conceptId="90211" />
 							</p>
 						</td>
 						<td>
@@ -911,7 +934,7 @@
 	                            <obs conceptId="160481"
 	                                 answerConceptIds="6abc57f2-3718-42f6-84c4-4f71e921d590,37549919-5934-448e-b110-cc7868e73ff2,9028e51b-0c27-4b72-bde6-fadba72d1396"
 	                                 answerLabels="Young Child Clinic, HIV Chronic Care, Other Referral"
-	                                 style="dropdown" id="mother-referred-from-facilty-type" />
+	                                 style="dropdown" />
 	                        </p>
 	                    </td>
 	                    <td>
