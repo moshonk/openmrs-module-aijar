@@ -206,6 +206,7 @@
                 	$muacQuantitativeField.removeClass('error');
                 	$muacQualitativeField.removeClass('error');
                 }
+
 	        };
 
 	        /**
