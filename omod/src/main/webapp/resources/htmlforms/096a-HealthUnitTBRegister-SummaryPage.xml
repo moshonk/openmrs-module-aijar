@@ -638,74 +638,100 @@
 
 
     </fieldset>
+
+	<fieldset>
+		<legend>Pre-Rx Sputum Smear</legend>
+		<table>
+			<tr>
+				<td>
+		            <p>
+		              <label>Sputum smear results</label>
+		              <obs 	conceptId="307" 
+		              		answerConceptIds="1118,664,164422,164423,164424,164425,164426,164427,164428,164429,164430,99388,99389,99390" 
+		              		answerLabels="ND - Not Done ,NEG - 0AFB/100, 1 - 1AFB/100 ,2 - 2AFB/100 ,3 - 3AFB/100 ,4 - 4AFB/100 ,5 - 5AFB/100,6 - 6AFB/100,7 - 7AFB/100,8 - 8AFB/100,9 - 9AFB/100,+ - 10-99AFB/Field,++ - 1-10AFB/Field,+++ - &gt;10AFB/Field" 
+		              		id="sputum-smear-results" style="dropdown" />
+		            </p>
+				</td>
+				<td>
+					<p>
+						<label>Sputum Smear Examination Date</label>
+						<obs conceptId="99392" id="sputum-smear-date" />
+					</p>
+				</td>
+			</tr>
+		</table>				
+	</fieldset>
+
 	
 	<fieldset>
-		<legend>Results of Sputum and Other Examinations</legend>
-		<h3>Pre-Rx</h3>
-		<section>
-			<table>
-				<tr>
-					<td>
-			            <p>
-			              <label>Sputum smear results</label>
-			              <obs 	conceptId="307" 
-			              		answerConceptIds="1118,664,1362,1363,1364,1365,163417AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,163418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,164428,164429,164430,159985,703,160008" 
-			              		answerLabels="ND - Not Done, NEG- Negative, 1AFB/100, 2AFB/100, 3AFB/100, 4AFB/100,5AFB/100,6AFB/100,7AFB/100,8AFB/100,9AFB/100,Scanty,Positive,Contaminated specimen" 
-			              		style="dropdown" required="true" />
-			            </p>
-					</td>
-					<td>
-						<p>
-							<label>Sputum Smear Examination Date</label>
-							<obs conceptId="99392" required="true" />
-						</p>
-					</td>
-				</tr>
-			</table>				
-		</section>
-
-		<section>
-			<h3>Other Investigations</h3>
-			<table>
-				<tr>
-					<td>
-						<label>Mantoux</label>
-						<obs 	conceptId="140144" 
-								showDate="true" dateLabel="&lt;label style='clear:left'&gt;Examination Date&lt;/label&gt;" />
-					</td>
-					<td>
-						<label>GeneXpert</label>
-						<obs 	conceptId="162202" 
-								answerConceptIds="162204, 162203, 164104, 664, 163611" 
-								answerLabels="MTB Detected - rifampicin resistance not detected, MTB Detected - rifampicin resistance detected, MTB Detected - rifampicin resistance indeterminate, MTB not detected, Invalid no result - error" 
-								showDate="true" dateLabel="&lt;label style='clear:left'&gt;Examination Date&lt;/label&gt;" />
-					</td>
-					<td>
-						<label>Biopsy</label>
-						<obs 	conceptId="164907"								
-								answerConceptIds="703,664" 
-								answerLabels="AFBs Found, No AFBs Found" 
-								showDate="true" dateLabel="&lt;label style='clear:left'&gt;Examination Date&lt;/label&gt;" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label>Cerebrospinal Fluid Examination (CSF)</label>
-						<obs 	conceptId="159645" 
-								answerConceptIds="703,664" 
-								answerLabels="AFBs Found, No AFBs Found" 
-								showDate="true" dateLabel="&lt;label style='clear:left'&gt;Examination Date&lt;/label&gt;" />
-					</td>
-					<td>
-						<label>X-ray</label>
-						<obs 	conceptId="12" 
-								answerConceptIds="1115,1137,5158,6049,6050,6052,114108,5622" 
-								answerLabels="Normal, Miliary Changes, Evidence Of Cardiac Enlargement, Infiltrate, Diffuse Non-Miliary Changes, Cavitary Lesion, Pleural Effusion, Other" 
-								showDate="true" dateLabel="&lt;label style='clear:left'&gt;Examination Date&lt;/label&gt;" />
-					</td>
-				</tr>
-			</table>
-		</section>
+		<legend>Results of Other Examinations</legend>
+		<table>
+			<tr>
+				<td>
+					<label>Mantoux</label>
+					<obs 	conceptId="140144" 
+							showDate="true" dateLabel="&lt;/td&gt;&lt;td&gt;&lt;label&gt;Mantoux Examination Date&lt;/label&gt;" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>GeneXpert</label>
+					<obs 	conceptId="162202" 
+							answerConceptIds="162204, 162203, 164104, 664, 163611" 
+							answerLabels="T - MTB Detected, rifampicin resistance not detected,RR - MTB Detected, rifampicin resistance detected,TI - MTB Detected, rifampicin resistance indeterminate,N - MTB not detected,I - Invalid no result - error" 
+							showDate="true" dateLabel="&lt;/td&gt;&lt;td&gt;&lt;label&gt;GeneXpert Examination Date&lt;/label&gt;" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>Biopsy</label>
+					<obs 	conceptId="164907"								
+							answerConceptIds="703,664" 
+							answerLabels="AFBs Found, No AFBs Found" 
+							showDate="true" dateLabel="&lt;/td&gt;&lt;td&gt;&lt;label&gt;Biopsy Examination Date&lt;/label&gt;" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>Cerebrospinal Fluid Examination (CSF)</label>
+					<obs 	conceptId="159645" 
+							answerConceptIds="703,664" 
+							answerLabels="AFBs Found, No AFBs Found" 
+							showDate="true" dateLabel="&lt;/td&gt;&lt;td&gt;&lt;label&gt;CSF Examination Date&lt;/label&gt;" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>X-ray results</label>
+					<obs 	conceptId="12" 
+							answerConceptId="1115" 
+							answerLabel="Normal" 
+							class="horizontal-layout-options" />
+					<obs 	conceptId="12" 
+							answerConceptId="1137" 
+							answerLabel="Miliary Changes" />
+					<obs 	conceptId="12" 
+							answerConceptId="5158" 
+							answerLabel="Evidence Of Cardiac Enlargement" />
+					<obs 	conceptId="12" 
+							answerConceptId="6049" 
+							answerLabel="Infiltrate" class="horizontal-layout-options" />
+					<obs 	conceptId="12" 
+							answerConceptId="6050" 
+							answerLabel="Diffuse Non-Miliary Changes" />
+					<obs 	conceptId="12" 
+							answerConceptId="6052" 
+							answerLabel="Cavitary Lesion" />
+					<obs 	conceptId="12" 
+							answerConceptId="114108" 
+							answerLabel="Pleural Effusion" />
+					<obs 	conceptId="12" 
+							answerConceptId="5622" 
+							answerLabel="Other" 
+							showDate="true" dateLabel="&lt;/td&gt;&lt;td&gt;&lt;label&gt;X-ray Examination Date&lt;/label&gt;" class="horizontal-layout-options" />
+				</td>
+			</tr>
+		</table>
 	</fieldset>
 
 	<fieldset>
