@@ -106,7 +106,10 @@ public class MCHProgramEnrollmentPostSubmissionActionTest extends BaseModuleWebC
 		when(formEntrySession.getEncounter()).thenReturn(encounter);
 		
 		ProgramWorkflowService programWorkflowService = Context.getService(ProgramWorkflowService.class);
-		Program mchProgram = programWorkflowService.getProgramByUuid(Programs.MCH_PROGRAM.uuid());
+		Program mchProgram = new Program(Programs.MCH_PROGRAM.name());
+		mchProgram.setConcept(new Concept(3));
+		mchProgram.setUuid(Programs.MCH_PROGRAM.uuid());
+		programWorkflowService.saveProgram(mchProgram);
 		
 		List<PatientProgram> programs = programWorkflowService.getPatientPrograms(patient, mchProgram, null, null, null,
 		    null, false);

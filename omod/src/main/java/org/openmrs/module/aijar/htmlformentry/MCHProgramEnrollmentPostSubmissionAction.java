@@ -3,7 +3,10 @@ package org.openmrs.module.aijar.htmlformentry;
 import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
 import org.openmrs.Program;
+<<<<<<< HEAD
 import org.openmrs.api.APIException;
+=======
+>>>>>>> Enrolling patients into TB and MCH programs (#221)
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.aijar.metadata.core.Programs;
