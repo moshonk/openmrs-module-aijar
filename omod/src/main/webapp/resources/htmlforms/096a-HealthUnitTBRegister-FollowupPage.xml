@@ -206,7 +206,6 @@
                 	$muacQuantitativeField.removeClass('error');
                 	$muacQualitativeField.removeClass('error');
                 }
-
 	        };
 
 	        /**
@@ -423,7 +422,7 @@
 
   <div class="ai-page-frame">
     <div class="headers" style="text-align: center;">
-      <h3 style="background: #FFFF7D; padding: 10px;">HMIS 096A TB Form - Followup</h3>
+      <h3 style="background: #FFFF7D; padding: 10px;">HMIS 096A Health Unit TB Form - Followup</h3>
     </div>
 
 	<fieldset>
